@@ -19,3 +19,7 @@ background-color: rgba(0,0,0,0.5); /* Black background with opacity */
 .guessing {
   pointer-events: none;
 }
+
+.canva-well {
+  height:600px;
+}

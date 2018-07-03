@@ -8,8 +8,7 @@ const socket = openSocket('http://localhost:8000')
   var canvas = document.getElementsByClassName('whiteboard')[0];
   var colors = document.getElementsByClassName('color');
   var context = canvas.getContext('2d');
-  canvas.width = canvas.offsetWidth;
-  canvas.height = canvas.offsetHeight;
+
 
   var current = {
     color: 'black'
@@ -28,7 +27,7 @@ const socket = openSocket('http://localhost:8000')
   socket.on('drawing', onDrawingEvent);
 
   window.addEventListener('resize', onResize, false);
-  onResize();
+
 
 
   function drawLine(x0, y0, x1, y1, color, emit){
@@ -90,7 +89,6 @@ const socket = openSocket('http://localhost:8000')
   }
 
   function onDrawingEvent(data){
-    console.log('onDraw')
     var w = canvas.width;
     var h = canvas.height;
     drawLine(data.x0 * w, data.y0 * h, data.x1 * w, data.y1 * h, data.color);
@@ -98,11 +96,9 @@ const socket = openSocket('http://localhost:8000')
 
   // make the canvas fill its parent
   function onResize() {
-  //   // console.log('hi');
-  //   // canvas.style.width='100%';
-  //   // canvas.style.height='100%';
-    canvas.width = canvas.offsetWidth;
-    canvas.height = canvas.offsetHeight;
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
   }
 

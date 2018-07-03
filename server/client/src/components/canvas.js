@@ -2,17 +2,19 @@ import React, {Component} from 'react';
 import canvasScript from '.././assets/canvas.js';
 
 class Canvas extends Component {
+    constructor(props) {
+        super(props)
+    }
     componentDidMount = () => {
         canvasScript();
 
     }
     componentDidUpdate = () =>{
-        canvasScript()
     }
     render() {
         return (
-            <div>
-        <canvas height='600px' width='600px' style={{border: '1px solid black'}} id='canvas' className="whiteboard" ></canvas>
+            <div className=' col-xs-6 '>
+        <canvas height={window.innerHeight} width={window.innerWidth} id='canvas' className="whiteboard well" ></canvas>
         <div className="colors">
           <div className="color black"></div>
           <div className="color red"></div>

@@ -15,42 +15,51 @@ class App extends Component {
       role: 'guesser',
       winner: false
     }
+    this.winner = null;
+    this.winningGuess = null;
   }
   componentDidMount = () => {
+    if(this.props.user){
+      if(this.state.role !== 'draw'){
+        let canva = document.getElementById('canvas')
+        canva.className += ' guessing'
+      } else {
+        let canva = document.getElementById('canvas')
+        canva.classList.remove('guessing')
+      }}
     this.props.socket.on('winner-found', (data) => {
       console.log('hi')
+      this.winner = data.username
+      this.winningGuess = data.guess
       this.setState({winner: true})
     })
   }
   componentDidUpdate = () => {
-    if(this.state.role !== 'draw'){
-      let canva = document.getElementById('canvas')
-      canva.className += ' guessing'
-    } else {
-      let canva = document.getElementById('canvas')
-      canva.classList.remove('guessing')
-    }
+    if(this.props.user && this.state.winner == false){
+      if(this.state.role !== 'draw'){
+        let canva = document.getElementById('canvas')
+        canva.className += ' guessing'
+      } else {
+        let canva = document.getElementById('canvas')
+        canva.classList.remove('guessing')
+      }}
   }
   render() {
     if(this.props.user == null) {
       return(<Login />)
     }
     if(this.state.winner == true){
-      return (<h1 className='overlay text-center jumbotron'> WINNER FOUND </h1>)
+      return (<h1 className='overlay text-center jumbotron'> WINNER FOUND {this.winner}, {this.winningGuess} </h1>)
     } else {
     return (
-      <div className="App">
       <div className='container-fluid'>
       <div className='row'>
-      <div className='col-6'>
       <Canvas/>
-      </div>
-      <div className='col-6'>
+      <div className='col-xs-6'>
       <h2> Welcome {this.props.user} </h2>
       <Guess user={this.props.user}/>
       <GuessList role={this.state.role}/>
       <button onClick={() => this.setState({role: 'draw'})}>test</button>
-      </div>
       </div>
       </div>
       </div>
