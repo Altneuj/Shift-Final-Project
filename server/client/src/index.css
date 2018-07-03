@@ -1,0 +1,21 @@
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-family: sans-serif;
+}
+#overlay
+{
+position: absolute; /* Sit on top of the page content */
+width: 100%; /* Full width (cover the whole page) */
+height: 100%; /* Full height (cover the whole page) */
+top: 0; 
+left: 0;
+right: 0;
+z-index: 3;
+bottom: 0;
+background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+}
+
+.guessing {
+  pointer-events: none;
+}
