@@ -23,6 +23,13 @@ background-color: rgba(0,0,0,0.5); /* Black background with opacity */
 .canva-well {
   height:600px;
 }
-.hide {
-  display: none;
+.guess-list {
+  cursor: pointer;
+  overflow-x: hidden;
+  overflow-y: visible; 
+  position: fixed;
+  max-width: 200px;
+  max-height: 50%;
+  bottom: 10%;
+  right: 10%;
 }
