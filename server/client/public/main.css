@@ -17,6 +17,7 @@
     position: absolute;
     left: 0;
     right: 0;
+    touch-action: auto;
     bottom: 0;
     padding:0 !important;
     top: 0;

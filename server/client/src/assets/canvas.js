@@ -15,10 +15,13 @@ const socket = openSocket('http://localhost:8000')
   };
   var drawing = false;
 
-  canvas.addEventListener('mousedown', onMouseDown, false);
-  canvas.addEventListener('mouseup', onMouseUp, false);
+  canvas.addEventListener('pointerdown', onMouseDown, false);
+  canvas.addEventListener('pointerup', onMouseUp, false);
   canvas.addEventListener('mouseout', onMouseUp, false);
-  canvas.addEventListener('mousemove', throttle(onMouseMove, 10), false);
+  canvas.addEventListener('pointermove', throttle(onMouseMove, 10), false);
+
+  
+  
 
   for (var i = 0; i < colors.length; i++){
     colors[i].addEventListener('click', onColorUpdate, false);
@@ -58,7 +61,8 @@ const socket = openSocket('http://localhost:8000')
     current.y = e.clientY;
   }
 
-  function onMouseUp(e){
+  function onMouseUp(e){   
+
     if (!drawing) { return; }
     drawing = false;
     drawLine(current.x, current.y, e.clientX, e.clientY, current.color, true);
