@@ -4,10 +4,13 @@ import Login from './Login'
 import Canvas from './canvas'
 import Guess from './Guess';
 import GuessList from './GuessList';
-import {socketConnect} from 'socket.io-react';
+import { connect } from 'react-redux';
+import {fetchNoun} from '../actions';
+import { socketConnect } from 'socket.io-react';
+import { bindActionCreators } from 'redux';
 
 class App extends Component {
-  constructor(){
+  constructor() {
     super()
 
     this.state = {
@@ -20,75 +23,87 @@ class App extends Component {
     this.socketId = null;
   }
   componentDidMount = () => {
-    if(this.state.user){
-      if(!this.state.draw){
+    if (this.state.user) {
+      if (!this.state.draw) {
         let canva = document.getElementById('canvas')
         canva.className += ' guessing'
       } else {
         let canva = document.getElementById('canvas')
         canva.classList.remove('guessing')
-      }}
+      }
+    }
+    if(this.props.draw) {
+      this.props.fetchNoun();
+    }
     this.props.socket.on('winner-found', (data) => {
       console.log(data)
       this.winner = data.username
       this.winningGuess = data.guess
-      this.setState({winner: true})
+      this.setState({ winner: true })
     })
     this.props.socket.on('your-role', (data) => {
-      console.log(data)
-      this.setState({draw: data})
+      this.setState({ draw: data })
     })
 
     this.props.socket.on('user-received', (data) => {
-      this.setState({user: data.username});
+      this.setState({ user: data.username });
     })
     this.props.socket.on('start-new-game', (data) => {
-      this.setState({winner: data})
+      this.setState({ winner: data })
     })
   }
+
   componentDidUpdate = () => {
-    if(this.state.user && this.state.winner == false){
-      if(!this.state.draw){
+    if (this.state.user && this.state.winner == false) {
+      if (!this.state.draw) {
         let canva = document.getElementById('canvas')
         canva.className += ' guessing'
       } else {
         let canva = document.getElementById('canvas')
         canva.classList.remove('guessing')
-      }}
+      }
+    }
   }
   render() {
-    debugger;
-    if(this.state.user == null) {
-      return(<Login />)
+    if (this.state.user == null) {
+      return (<Login />)
     }
-    if(this.state.winner == true && this.state.draw == true){
+    if (this.state.winner == true && this.state.draw == true) {
       return (
-        <div>
-        <h1 className='overlay text-center jumbotron'> TEST UR DRAWING {this.winner}, {this.winningGuess} </h1>
-        <button onClick={() => {this.props.socket.emit('new-game')}}>Next Game</button>
+        <div className='jumbotron justify-content-center'>
+          <h1 className='text-center'> Winner Found! Player: {this.winner}, Guess: {this.winningGuess} </h1>
+          <h2 className='text-center'> You Are Drawing Next </h2> 
+          <button className='justify-content-center btn btn-primary' onClick={() => { this.props.socket.emit('new-game') }}>Next Game</button>
         </div>
       )
     }
-    if(this.state.winner == true){
-      return (<h1 className='overlay text-center jumbotron'> WINNER FOUND {this.winner}, {this.winningGuess} </h1>)
-      
+    if (this.state.winner == true) {
+      return (
+        <div className='jumbotron'>
+      <h1 className='overlay text-center jumbotron'> Winner Found Player: {this.winner}, Guess: {this.winningGuess} </h1>
+      <h2 className='text-center'> You Are Guessing Next Round, Wait for Drawer to Start </h2>
+      </div>
+      )
     } else {
-    return (
-      <div className='container-fluid'>
-      <div className='row'>
-      <Canvas/>
-      <div className='col-xs-6'>
-      <h2> Welcome {this.state.user} </h2>
-      <Guess user={this.state.user}/>
-      <div className='guess-list'>
-      <GuessList draw={this.state.draw}/>
-      </div>
-      <button onClick={() => this.setState({draw: true})}>test</button>
-      </div>
-      </div>
-      </div>
-    );}
+      return (
+        <div className='container-fluid'>
+          <div className='row'>
+            <Canvas />
+            <div className='col-xs-6'>
+              <h2> Welcome {this.state.user} </h2>
+              <Guess user={this.state.user} draw={this.state.draw} />
+              <div className='guess-list'>
+                <GuessList draw={this.state.draw} />
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
   }
 }
 
-export default socketConnect(App);
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({fetchNoun}, dispatch)
+}
+export default socketConnect(connect(null, mapDispatchToProps)(App));

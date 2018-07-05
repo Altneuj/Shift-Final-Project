@@ -1,25 +1,57 @@
-import React, {Component} from 'react';
-import {socketConnect} from 'socket.io-react'
+import React, { Component } from 'react';
+import { socketConnect } from 'socket.io-react'
+import { connect } from 'react-redux';
+import { fetchNoun } from '../actions'
+import { bindActionCreators } from 'redux';
 
 class Guess extends Component {
-    constructor(props){
+    constructor(props) {
         super(props)
 
         this.state = {
             guess: ''
         }
     }
+    componentWillMount = async () => {
+            if(this.props.draw) {
+            await this.props.fetchNoun();
+          }
+    }
+
     handleGuess = () => {
-        this.props.socket.emit('new-guess', {guess: this.state.guess, username: this.props.user})
-        this.setState({guess: ''});
+        this.props.socket.emit('new-guess', { guess: this.state.guess, username: this.props.user })
+        this.setState({ guess: '' });
+    }
+
+    handleRender = () => {
+        debugger;
+        if(!this.props.draw){
+            return(
+            <div>
+                <input className='offset-md-5' onChange={(e) => this.setState({ guess: e.target.value })} value={this.state.guess} type="text" />
+                <button type='button' onClick={() => this.handleGuess()} className='btn btn-primary'>Guess!</button>
+            </div>
+            )
+        }
+        if(this.props.draw){
+            return(
+                <div>
+            <h3> {this.props.noun} </h3>
+            <button type='button' onClick={() => {this.props.fetchNoun()}} className='btn btn-primary'>New Word</button>
+            </div>
+            )
+
+        }
     }
     render = () => {
-        return ( 
-            <div>
-            <input className='offset-md-5' onChange={(e) => this.setState({guess: e.target.value})} value={this.state.guess} type="text"/>
-            <button type='button' onClick ={() => this.handleGuess()} className='btn btn-primary'>Guess!</button>
-            </div>
-        )
+        return (this.handleRender())
     }
 }
-export default socketConnect(Guess)
+
+const mapStateToProps = ({noun}) => {
+    return {noun}
+}
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({fetchNoun}, dispatch);
+}
+export default socketConnect(connect(mapStateToProps, mapDispatchToProps)(Guess))

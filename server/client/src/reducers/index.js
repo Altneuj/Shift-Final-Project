@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux';
-import loginReducer from './loginReducer';
+import usersReducer from './usersReducer';
+import nounReducer from './nounReducer';
 
 export default combineReducers({
-    user: loginReducer
+    users: usersReducer,
+    noun: nounReducer
 });

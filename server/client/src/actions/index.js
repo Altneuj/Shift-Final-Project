@@ -1,7 +1,12 @@
 import axios from 'axios';
-import { SUBMIT_USER } from './types';
+import { FETCH_USERS, FETCH_NOUN } from './types';
 
-export const submitUser = (state) => {
-    let response = axios.post('/api/login', state);
-    return {type: SUBMIT_USER, payload: response}
+export const fetchUsers = () => {
+    let response = axios.get('/api/users');
+    return {type: FETCH_USERS, payload: response}
+}
+
+export const fetchNoun = () => {
+    let response = axios.get('/api/noun');
+    return {type: FETCH_NOUN, payload: response}
 }

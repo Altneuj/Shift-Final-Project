@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
-import {socketConnect} from 'socket.io-react';
+import React, { Component } from 'react';
+import { socketConnect } from 'socket.io-react';
 
 
 class GuessList extends Component {
-    constructor(props){
+    constructor(props) {
         super(props)
 
         this.state = {
@@ -11,33 +11,33 @@ class GuessList extends Component {
         }
     }
     componentDidMount() {
-        this.props.socket.on('incoming-guess', (data) =>{
-            this.setState({messages: [...this.state.messages, data]})
+        this.props.socket.on('incoming-guess', (data) => {
+            this.setState({ messages: [...this.state.messages, data] })
         })
     }
     componentDidUpdate() {
         this.scrollToBottom();
-      }
+    }
     scrollToBottom() {
         this.el.scrollIntoView({ behavior: 'smooth' });
-      }
+    }
     renderGuesses = () => {
-       let messagesArray = this.state.messages.map((message, index) => {
-           //set timeout?
-           //render directly from socket.on
+        let messagesArray = this.state.messages.map((message, index) => {
+            //set timeout?
+            //render directly from socket.on
             return (
 
-            <h3 onClick={this.props.draw ? () => {this.props.socket.emit('winner', {username: message.username, guess: message.guess})}: null}><span className='label label-default'> {message.guess}</span> </h3>
+                <h3 onClick={this.props.draw ? () => { this.props.socket.emit('winner', { username: message.username, guess: message.guess }) } : null}><span className='label label-default'> {message.guess}</span> </h3>
 
-                )
+            )
         })
         return messagesArray
     }
     render() {
         return (
             <div className='col-3 guess-list'>
-            <div>{this.renderGuesses()}</div>
-            <div ref={el => { this.el = el; }}/>
+                <div>{this.renderGuesses()}</div>
+                <div ref={el => { this.el = el; }} />
             </div>
 
         )
