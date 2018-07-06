@@ -1,7 +1,7 @@
 'use strict';
 import openSocket from 'socket.io-client';
 const canvasScript = () => {
-
+debugger;
 
 const socket = openSocket('http://localhost:8000')
 
@@ -30,10 +30,15 @@ const socket = openSocket('http://localhost:8000')
   }
 
   socket.on('drawing', onDrawingEvent);
+  socket.on('clear-canvas', clearCanvasEvent);
 
   window.addEventListener('resize', onResize, false);
 
   function clearCanvas(){
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    socket.emit('canvas-cleared')
+  }
+  function clearCanvasEvent(){
     context.clearRect(0, 0, canvas.width, canvas.height);
   }
 

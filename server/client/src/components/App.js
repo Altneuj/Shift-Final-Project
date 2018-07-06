@@ -56,9 +56,13 @@ class App extends Component {
       if (!this.state.draw) {
         let canva = document.getElementById('canvas')
         canva.className += ' guessing'
+        let clearButton = document.getElementById('clear-button');
+        clearButton.className += ' guessing'
       } else {
-        let canva = document.getElementById('canvas')
-        canva.classList.remove('guessing')
+        let canva = document.getElementById('canvas');
+        canva.classList.remove('guessing');
+        let clearButton = document.getElementById('clear-button');
+        clearButton.classList.remove('guessing');
       }
     }
   }
@@ -86,7 +90,7 @@ class App extends Component {
       return (
         <div className='container-fluid'>
           <div className='row'>
-            <Canvas />
+            <Canvas draw={this.state.draw} />
             <div className='col-xs-6'>
               <h2> Welcome {this.state.user} </h2>
               <Guess user={this.state.user} draw={this.state.draw} />

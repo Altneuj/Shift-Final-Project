@@ -24,7 +24,6 @@ class Guess extends Component {
     }
 
     handleRender = () => {
-        debugger;
         if(!this.props.draw){
             return(
             <div>

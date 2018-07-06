@@ -55,7 +55,8 @@ function onConnection(socket) {
       Users.splice(foundIndex, 1)
     }
   })
-  socket.on('new-game', () => io.emit('start-new-game', false))
+  socket.on('new-game', () => io.emit('start-new-game', false));
+  socket.on('canvas-cleared', () => {socket.broadcast.emit('clear-canvas')});
 }
 app.get('/api/users', (request, response) => {
   return response.send(Users)
