@@ -28,6 +28,7 @@ function onConnection(socket) {
     if(Users.length == 1) {
       nowDrawing = newUser;
       socket.emit('your-role', (true))
+      socket.emit('start-timer', (true))
     }
   })
   socket.on('drawing', (data) => socket.broadcast.emit('drawing', data));
@@ -55,7 +56,10 @@ function onConnection(socket) {
       Users.splice(foundIndex, 1)
     }
   })
-  socket.on('new-game', () => io.emit('start-new-game', false));
+  socket.on('new-game', () => {
+    io.emit('start-new-game', (false));
+    io.emit('start-timer', (true));
+  });
   socket.on('canvas-cleared', () => {socket.broadcast.emit('clear-canvas')});
 }
 app.get('/api/users', (request, response) => {

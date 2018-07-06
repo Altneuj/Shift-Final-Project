@@ -38,7 +38,7 @@ class Login extends Component {
                     <div className='row text-center justify-content-center'>
                         <div className='col'>
                             {this.usersOn()}
-                            <h2> Please Sign in to Continue </h2>
+                            <h2> What's your name? </h2>
                             <input className='text-center' onChange={(e) => this.setState({ username: e.target.value })} value={this.state.username} type="text" />
                             <button onClick={() => { this.submitUser(this.state) }} className='btn btn-primary'>Submit</button>
                         </div>

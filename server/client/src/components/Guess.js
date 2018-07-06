@@ -27,6 +27,7 @@ class Guess extends Component {
         if(!this.props.draw){
             return(
             <div>
+                <h4> You are guessing! </h4>
                 <input className='offset-md-5' onChange={(e) => this.setState({ guess: e.target.value })} value={this.state.guess} type="text" />
                 <button type='button' onClick={() => this.handleGuess()} className='btn btn-primary'>Guess!</button>
             </div>
@@ -35,6 +36,7 @@ class Guess extends Component {
         if(this.props.draw){
             return(
                 <div>
+                    <h4> You are drawing! </h4>
             <h3> {this.props.noun} </h3>
             <button type='button' onClick={() => {this.props.fetchNoun()}} className='btn btn-primary'>Press for Word</button>
             </div>

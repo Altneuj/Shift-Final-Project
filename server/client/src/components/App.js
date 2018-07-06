@@ -62,30 +62,47 @@ class App extends Component {
         let canva = document.getElementById('canvas');
         canva.classList.remove('guessing');
         let clearButton = document.getElementById('clear-button');
-        clearButton.classList.remove('guessing');
+        clearButton.classList.remove('guessing')
       }
     }
   }
   render() {
+    debugger;
     if (this.state.user == null) {
       return (<Login />)
     }
     if (this.state.winner == true && this.state.draw == true) {
-      return (
-        <div className='jumbotron justify-content-center'>
-          <h1 className='text-center'> Winner Found! Player: {this.winner}, Guess: {this.winningGuess} </h1>
-          <h2 className='text-center'> You are Drawing Next </h2> 
+      if(!this.winner && !this.winningGuess){
+        return (
+          <div className='jumbotron justify-content-center'>
+          <h1 className='text-center'> Times up! No winner this round! </h1>
+          <h2 className='text-center'> You are drawing next </h2> 
           <button className='btn btn-primary next-game' onClick={() => { this.props.socket.emit('new-game') }}>Next Game</button>
         </div>
-      )
+        )
+      } else {
+      return (
+        <div className='jumbotron justify-content-center'>
+          <h1 className='text-center'>  {this.winner} won this round! They guessed "{this.winningGuess}" </h1>
+          <h2 className='text-center'> You are drawing next </h2> 
+          <button className='btn btn-primary next-game' onClick={() => { this.props.socket.emit('new-game') }}>Next Game</button>
+        </div>
+      )}
     }
     if (this.state.winner == true) {
+      if(!this.winningGuess && !this.winner){
+        return(
+        <div className='jumbotron'>
+        <h1 className='overlay text-center jumbotron'> Time ran out! Try harder next round! </h1>
+        <h2 className='text-center'> You are guessing next round, wait for drawer to start the game </h2>
+        </div>)
+      } else {
       return (
         <div className='jumbotron'>
-      <h1 className='overlay text-center jumbotron'> Winner Found! Player: {this.winner}, Guess: {this.winningGuess} </h1>
-      <h2 className='text-center'> You Are Guessing Next Round, Wait for Drawer to Start </h2>
+      <h1 className='overlay text-center jumbotron'>{this.winner} won this round! They guessed "{this.winningGuess}" </h1>
+      <h2 className='text-center'> You are guessing next round, wait for drawer to start the game </h2>
       </div>
-      )
+      )}
     } else {
       return (
         <div className='container-fluid'>
