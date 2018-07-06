@@ -15,7 +15,11 @@ z-index: 3;
 bottom: 0;
 background-color: rgba(0,0,0,0.5); /* Black background with opacity */
 }
-
+.next-game {
+  display: block !important;
+  margin-left: auto;
+  margin-right: auto;
+}
 .guessing {
   pointer-events: none;
 }

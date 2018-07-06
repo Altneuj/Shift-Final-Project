@@ -31,6 +31,10 @@
     height: 48px;
     width: 48px;
   }
+  .clear-button{
+    height: 48px;
+    margin-top: -40px;
+  }
   .guessing {
       pointer-events: none;
   }

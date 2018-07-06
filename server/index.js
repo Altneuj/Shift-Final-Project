@@ -7,7 +7,10 @@ const port = process.env.PORT || 8000;
 const bodyParser = require('body-parser');
 const fs = require('fs');
 let Users = []
-
+let wordCounter = 0;
+let randomNoun;
+let upNextIndex = 0;
+let nowDrawing;
 let wordArray = fs.readFileSync('./server/assets/nounlist.txt', 'utf-8').split('\n');
 
 // production
@@ -23,19 +26,28 @@ function onConnection(socket) {
     Users.push(newUser)
     socket.emit('user-received', (newUser))
     if(Users.length == 1) {
+      nowDrawing = newUser;
       socket.emit('your-role', (true))
     }
   })
   socket.on('drawing', (data) => socket.broadcast.emit('drawing', data));
   socket.on('new-guess', (data) => io.emit('incoming-guess', data));
   socket.on('winner', (data) => {
-    let upNext = Math.floor((Math.random() * (0 - Users.length) + Users.length))
+    wordCounter = 0;
+     upNextIndex = Math.floor((Math.random() * (0 - Users.length) + Users.length));
+    let nowDrawing = Users[upNextIndex];
     Users.forEach((user) => {
-      io.to(user.id).emit('your-role', (user.id == Users[upNext].id))
+      io.to(user.id).emit('your-role', (user.id == nowDrawing.id))
     })
     io.emit('winner-found', data)
   });
   socket.on('disconnect', () => {
+    let foundUser =  Users.find((user) => {
+      return socket.client.id == user.id
+    })
+    if(!foundUser){
+      return 
+    }
     let foundIndex = Users.findIndex((user) => {
       return user.id == socket.client.id
     })
@@ -46,12 +58,17 @@ function onConnection(socket) {
   socket.on('new-game', () => io.emit('start-new-game', false))
 }
 app.get('/api/users', (request, response) => {
-  response.send(Users)
+  return response.send(Users)
 })
 app.get('/api/noun', (request, response) => {
+  if(wordCounter >= 3) {
+    return response.send(randomNoun);
+  }
   let randomIndex = Math.floor((Math.random() * (0 - wordArray.length) + wordArray.length));
-  let randomNoun = wordArray[randomIndex];
-  response.send(randomNoun)
+   randomNoun = wordArray[randomIndex];
+   wordCounter ++;
+  return response.send(randomNoun)
+  
 })
 
 io.on('connection', onConnection);

@@ -32,9 +32,7 @@ class App extends Component {
         canva.classList.remove('guessing')
       }
     }
-    if(this.props.draw) {
-      this.props.fetchNoun();
-    }
+
     this.props.socket.on('winner-found', (data) => {
       console.log(data)
       this.winner = data.username
@@ -72,15 +70,15 @@ class App extends Component {
       return (
         <div className='jumbotron justify-content-center'>
           <h1 className='text-center'> Winner Found! Player: {this.winner}, Guess: {this.winningGuess} </h1>
-          <h2 className='text-center'> You Are Drawing Next </h2> 
-          <button className='justify-content-center btn btn-primary' onClick={() => { this.props.socket.emit('new-game') }}>Next Game</button>
+          <h2 className='text-center'> You are Drawing Next </h2> 
+          <button className='btn btn-primary next-game' onClick={() => { this.props.socket.emit('new-game') }}>Next Game</button>
         </div>
       )
     }
     if (this.state.winner == true) {
       return (
         <div className='jumbotron'>
-      <h1 className='overlay text-center jumbotron'> Winner Found Player: {this.winner}, Guess: {this.winningGuess} </h1>
+      <h1 className='overlay text-center jumbotron'> Winner Found! Player: {this.winner}, Guess: {this.winningGuess} </h1>
       <h2 className='text-center'> You Are Guessing Next Round, Wait for Drawer to Start </h2>
       </div>
       )

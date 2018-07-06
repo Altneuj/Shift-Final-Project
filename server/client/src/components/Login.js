@@ -41,7 +41,6 @@ class Login extends Component {
                             <h2> Please Sign in to Continue </h2>
                             <input className='text-center' onChange={(e) => this.setState({ username: e.target.value })} value={this.state.username} type="text" />
                             <button onClick={() => { this.submitUser(this.state) }} className='btn btn-primary'>Submit</button>
-                            <button onClick={() => { console.log(this.props.users) }}> test </button>
                         </div>
                     </div>
                 </div>

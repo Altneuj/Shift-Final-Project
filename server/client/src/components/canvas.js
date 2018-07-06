@@ -21,6 +21,7 @@ class Canvas extends Component {
                     <div className="color green"></div>
                     <div className="color blue"></div>
                     <div className="color yellow"></div>
+                    <button className='btn btn-warning clear-button'>Clear</button>
                 </div>
             </div>
         )

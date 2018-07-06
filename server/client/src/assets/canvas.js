@@ -8,6 +8,7 @@ const socket = openSocket('http://localhost:8000')
   var canvas = document.getElementsByClassName('whiteboard')[0];
   var colors = document.getElementsByClassName('color');
   var context = canvas.getContext('2d');
+  var clearButton = document.getElementsByClassName('clear-button')[0];
 
 
   var current = {
@@ -19,6 +20,7 @@ const socket = openSocket('http://localhost:8000')
   canvas.addEventListener('pointerup', onMouseUp, false);
   canvas.addEventListener('mouseout', onMouseUp, false);
   canvas.addEventListener('pointermove', throttle(onMouseMove, 10), false);
+  clearButton.addEventListener('click', clearCanvas, false);
 
   
   
@@ -31,7 +33,9 @@ const socket = openSocket('http://localhost:8000')
 
   window.addEventListener('resize', onResize, false);
 
-
+  function clearCanvas(){
+    context.clearRect(0, 0, canvas.width, canvas.height);
+  }
 
   function drawLine(x0, y0, x1, y1, color, emit){
     context.beginPath();

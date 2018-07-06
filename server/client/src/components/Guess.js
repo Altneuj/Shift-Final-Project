@@ -37,7 +37,7 @@ class Guess extends Component {
             return(
                 <div>
             <h3> {this.props.noun} </h3>
-            <button type='button' onClick={() => {this.props.fetchNoun()}} className='btn btn-primary'>New Word</button>
+            <button type='button' onClick={() => {this.props.fetchNoun()}} className='btn btn-primary'>Press for Word</button>
             </div>
             )
 
