@@ -14,6 +14,9 @@ class GuessList extends Component {
         this.props.socket.on('incoming-guess', (data) => {
             this.setState({ messages: [...this.state.messages, data] })
         })
+        this.props.socket.on('clear-guesses', () => {
+            this.setState({messages: []})
+        })
     }
     componentDidUpdate() {
         this.scrollToBottom();
@@ -27,7 +30,7 @@ class GuessList extends Component {
             //render directly from socket.on
             return (
 
-                <h3 onClick={this.props.draw ? () => { this.props.socket.emit('winner', { username: message.username, guess: message.guess }) } : null}><span className='label label-default'> {message.guess}</span> </h3>
+                <h2 onClick={this.props.draw ? () => { this.props.socket.emit('winner', { username: message.username, guess: message.guess }) } : null}><span className='label label-default'> {message.guess}</span> </h2>
 
             )
         })

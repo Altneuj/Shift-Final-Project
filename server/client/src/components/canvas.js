@@ -18,9 +18,11 @@ class Canvas extends Component {
         this.props.socket.on('start-timer', (data) =>{
             this.setState({timer: data})
         })
+        this.props.socket.on('stop-timer', (data) => {
+            this.setState({timer: data})
+        })
     }
     renderTimer = () => {
-        debugger;
         if(this.state.timer && this.props.draw){
             return <ReactCountdownClock
             seconds={30}

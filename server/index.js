@@ -61,6 +61,9 @@ function onConnection(socket) {
     io.emit('start-timer', (true));
   });
   socket.on('canvas-cleared', () => {socket.broadcast.emit('clear-canvas')});
+  socket.on('clear-guesses', () =>{io.emit('clear-guesses')})
+  socket.on('stop-timer', () => {io.emit('stop-timer', (false))});
+  socket.on('clear-all', () => {io.emit('clear-canvas')});
 }
 app.get('/api/users', (request, response) => {
   return response.send(Users)

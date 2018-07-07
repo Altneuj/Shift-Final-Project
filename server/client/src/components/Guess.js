@@ -38,7 +38,10 @@ class Guess extends Component {
                 <div>
                     <h4> You are drawing! </h4>
             <h3> {this.props.noun} </h3>
-            <button type='button' onClick={() => {this.props.fetchNoun()}} className='btn btn-primary'>Press for Word</button>
+            <button type='button' onClick={() => {
+                this.props.socket.emit('clear-all');
+                this.props.fetchNoun();
+                }} className='btn btn-primary'>Press for Word</button>
             </div>
             )
 

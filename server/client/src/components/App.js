@@ -6,7 +6,9 @@ import Guess from './Guess';
 import GuessList from './GuessList';
 import { connect } from 'react-redux';
 import {fetchNoun} from '../actions';
+import WinGuessing from './winGuessing';
 import { socketConnect } from 'socket.io-react';
+import WinDrawing from './winDrawing';
 import { bindActionCreators } from 'redux';
 
 class App extends Component {
@@ -66,55 +68,34 @@ class App extends Component {
       }
     }
   }
+  renderWinning = () => {
+    if (this.state.winner && this.state.draw) {
+      return(
+      <WinDrawing user={this.state.user} winner={this.winner} winningGuess={this.winningGuess} />
+      )
+    }
+    if (this.state.winner == true ) {
+      return <WinGuessing user={this.state.user} winner={this.winner} winningGuess={this.winningGuess} />
+    }
+  }
   render() {
-    debugger;
     if (this.state.user == null) {
       return (<Login />)
-    }
-    if (this.state.winner == true && this.state.draw == true) {
-      if(!this.winner && !this.winningGuess){
-        return (
-          <div className='jumbotron justify-content-center'>
-          <h1 className='text-center'> Times up! No winner this round! </h1>
-          <h2 className='text-center'> You are drawing next </h2> 
-          <button className='btn btn-primary next-game' onClick={() => { this.props.socket.emit('new-game') }}>Next Game</button>
-        </div>
-        )
-      } else {
-      return (
-        <div className='jumbotron justify-content-center'>
-          <h1 className='text-center'>  {this.winner} won this round! They guessed "{this.winningGuess}" </h1>
-          <h2 className='text-center'> You are drawing next </h2> 
-          <button className='btn btn-primary next-game' onClick={() => { this.props.socket.emit('new-game') }}>Next Game</button>
-        </div>
-      )}
-    }
-    if (this.state.winner == true) {
-      if(!this.winningGuess && !this.winner){
-        return(
-        <div className='jumbotron'>
-        <h1 className='overlay text-center jumbotron'> Time ran out! Try harder next round! </h1>
-        <h2 className='text-center'> You are guessing next round, wait for drawer to start the game </h2>
-        </div>)
-      } else {
-      return (
-        <div className='jumbotron'>
-      <h1 className='overlay text-center jumbotron'>{this.winner} won this round! They guessed "{this.winningGuess}" </h1>
-      <h2 className='text-center'> You are guessing next round, wait for drawer to start the game </h2>
-      </div>
-      )}
     } else {
       return (
         <div className='container-fluid'>
           <div className='row'>
             <Canvas draw={this.state.draw} />
-            <div className='col-xs-6'>
+            <div className='top-right'>
               <h2> Welcome {this.state.user} </h2>
               <Guess user={this.state.user} draw={this.state.draw} />
               <div className='guess-list'>
                 <GuessList draw={this.state.draw} />
               </div>
             </div>
+          </div>
+          <div className='row text-center winning-screen justify-content-center anchor-bot col-xs-8'>
+          {this.renderWinning()}
           </div>
         </div>
       );
