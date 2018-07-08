@@ -1,0 +1,25 @@
+{
+  "name": "shiftionary",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "cd server && npm install",
+    "start": "node server/index.js"
+  },
+  "engines": {
+    "node": "8.11.1",
+    "npm": "6.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Altneuj/Shift-Final-Project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Altneuj/Shift-Final-Project/issues"
+  },
+  "homepage": "https://github.com/Altneuj/Shift-Final-Project#readme"
+}
