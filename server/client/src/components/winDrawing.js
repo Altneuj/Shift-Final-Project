@@ -13,11 +13,11 @@ class winDrawing extends Component {
         console.log(this.props.winner, this.props.user)
         if (this.props.winner == this.props.user) {
             return (
-                <div className='well justify-content-center'>
+                <div className='well winner justify-content-center'>
                     <h1 className='text-center'>  YOU won this round! </h1>
                     <img className='win-img' src='https://media.giphy.com/media/ehhuGD0nByYxO/giphy.gif' alt='win' />
                     <h2 className='text-center'> Double win! You also draw next! </h2>
-                    <button className='btn btn-primary next-game' onClick={() => {
+                    <button className='btn btn-secondary next-game' onClick={() => {
                         this.props.socket.emit('clear-guesses')
                         this.props.socket.emit('clear-all');
                         this.props.socket.emit('new-game')
@@ -28,10 +28,11 @@ class winDrawing extends Component {
         }
         if (!this.props.winner && !this.props.winningGuess) {
             return (
-                <div className='well justify-content-center'>
+                <div className='well winner justify-content-center'>
                     <h1 className='text-center'> Times up! No winner this round! </h1>
+                    <img className='win-img' src='https://media.giphy.com/media/ZO91JK6HBDeCMQXkK4/giphy.gif' alt='win' />
                     <h2 className='text-center'> You are drawing next </h2>
-                    <button className='btn btn-primary next-game' onClick={() => {
+                    <button className='btn btn-secondary next-game' onClick={() => {
                         this.props.socket.emit('new-game');
                         this.props.socket.emit('clear-all');
                         this.props.socket.emit('clear-guesses');
@@ -40,10 +41,11 @@ class winDrawing extends Component {
             )
         } else {
             return (
-                <div className='well justify-content-center'>
+                <div className='well winner justify-content-center'>
                     <h1 className='text-center'>  {this.props.winner} won this round! They guessed "{this.props.winningGuess}" </h1>
+                    <img className='win-img' src='https://media.giphy.com/media/3owyoXMzSPGjbsQ5uE/giphy.gif' alt='draw' />
                     <h2 className='text-center'> You are drawing next </h2>
-                    <button className='btn btn-primary next-game' onClick={() => {
+                    <button className='btn btn-secondary next-game' onClick={() => {
                         this.props.socket.emit('clear-guesses')
                         this.props.socket.emit('clear-all');
                         this.props.socket.emit('new-game')

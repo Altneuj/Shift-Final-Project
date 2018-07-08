@@ -13,7 +13,7 @@ left: 0;
 right: 0;
 z-index: 3;
 bottom: 0;
-background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+background-color: #0089B2; /* Black background with opacity */
 }
 .next-game {
   display: block !important;
@@ -43,8 +43,8 @@ background-color: rgba(0,0,0,0.5); /* Black background with opacity */
   bottom: 15%;
 }
 .win-img {
-  height:100px;
-  width:100px;
+  height:200px;
+  width:200px;
 }
 .top-right {
   position: absolute;
@@ -55,3 +55,65 @@ background-color: rgba(0,0,0,0.5); /* Black background with opacity */
   position: absolute !important;
   bottom: 10% !important;
 }
+
+.hide {
+  display:none;
+}
+
+.error-text {
+  color: red;
+}
+.winner {
+  background-color: #0089B2 !important;
+}
+/* FROM REACT_COLLAPSIBLE */
+.Collapsible {
+  background-color: white; }
+
+.Collapsible__contentInner {
+  padding: 10px;
+  border: 1px solid #ebebeb;
+  border-top: 0; }
+  .Collapsible__contentInner p {
+    margin-bottom: 10px;
+    font-size: 14px;
+    line-height: 20px; }
+    .Collapsible__contentInner p:last-child {
+      margin-bottom: 0; }
+
+.Collapsible__trigger {
+  display: block;
+  font-weight: 400;
+  text-decoration: none;
+  color: #0089B2;
+  position: relative;
+  border: 1px solid white;
+  padding: 10px;
+  background: #0089B2;
+  color: white; }
+  .Collapsible__trigger:after {
+    font-family: 'FontAwesome';
+    content: '\f107';
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    display: block;
+    transition: transform 300ms; }
+  .Collapsible__trigger.is-open:after {
+    transform: rotateZ(180deg); }
+  .Collapsible__trigger.is-disabled {
+    opacity: 0.5;
+    background-color: grey; }
+
+.CustomTriggerCSS {
+  background-color: lightcoral;
+  transition: background-color 200ms ease; }
+
+.CustomTriggerCSS--open {
+  background-color: #3D3E98; }
+
+.Collapsible__custom-sibling {
+  padding: 5px;
+  font-size: 12px;
+  background-color: #CBB700;
+  color: black; }

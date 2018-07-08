@@ -13,13 +13,28 @@ class Login extends Component {
         }
     }
     componentDidMount = () => {
+        this.props.fetchUsers();
         setInterval(() => { this.props.fetchUsers() }, 3000)
     }
     componentWillUnmount = () => {
         clearInterval()
     }
     submitUser = (data) => {
-        this.props.socket.emit('add-user', data)
+        if(this.props.users && data.username != ''){
+        let foundUser = this.props.users.find((user) => {
+            return user.username.toLowerCase() == data.username.toLowerCase()
+        })
+        if (!foundUser) {
+            this.props.socket.emit('add-user', data)
+        } else {
+            this.refs.error.classList.remove('hide');
+        }}
+    }
+    handleEnter = (e) => {
+        debugger;
+        if(e.key == 'Enter'){
+            this.submitUser(this.state);
+        }
     }
     usersOn = () => {
         if (this.props.users && this.props.users.length !== 0) {
@@ -38,8 +53,18 @@ class Login extends Component {
                     <div className='row text-center justify-content-center'>
                         <div className='col'>
                             {this.usersOn()}
+                            <div className='jumbotron'>
+                            <h2> Welcome to Draw-It! A live drawing game! </h2>
+                            </div>
+                            <h3> The rules are simple. </h3>
+                            <h4> <strong><u> If you are the drawer</u></strong>, you can draw anything you want! If you need some inspiration hit the 'Press for Word' button. </h4>
+                            <h4> Keep an eye on the guesses in the bottom right corner of the screen. </h4>
+                            <h4> Click the guess that matches what you drew! </h4>
+                            <h4> <strong><u>If you aren't drawing</u></strong>, try to guess what the drawing is.</h4>
+                            <hr />
                             <h2> What's your name? </h2>
-                            <input className='text-center' onChange={(e) => this.setState({ username: e.target.value })} value={this.state.username} type="text" />
+                            <input onKeyPress={(e) => this.handleEnter(e)} maxLength='8' className='text-center' onChange={(e) => this.setState({ username: e.target.value })} value={this.state.username} type="text" />
+                            <p className='error-text hide' ref='error'> Username already in use! Please use another. </p>
                             <button onClick={() => { this.submitUser(this.state) }} className='btn btn-primary'>Submit</button>
                         </div>
                     </div>

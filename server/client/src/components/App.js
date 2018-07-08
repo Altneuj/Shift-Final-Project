@@ -10,6 +10,7 @@ import WinGuessing from './winGuessing';
 import { socketConnect } from 'socket.io-react';
 import WinDrawing from './winDrawing';
 import { bindActionCreators } from 'redux';
+import UsersList from './UsersList';
 
 class App extends Component {
   constructor() {
@@ -87,12 +88,13 @@ class App extends Component {
           <div className='row'>
             <Canvas draw={this.state.draw} />
             <div className='top-right'>
+            <UsersList/>
               <h2> Welcome {this.state.user} </h2>
               <Guess user={this.state.user} draw={this.state.draw} />
+              </div>
               <div className='guess-list'>
                 <GuessList draw={this.state.draw} />
               </div>
-            </div>
           </div>
           <div className='row text-center winning-screen justify-content-center anchor-bot col-xs-8'>
           {this.renderWinning()}

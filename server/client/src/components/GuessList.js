@@ -26,8 +26,7 @@ class GuessList extends Component {
     }
     renderGuesses = () => {
         let messagesArray = this.state.messages.map((message, index) => {
-            //set timeout?
-            //render directly from socket.on
+
             return (
 
                 <h2 onClick={this.props.draw ? () => { this.props.socket.emit('winner', { username: message.username, guess: message.guess }) } : null}><span className='label label-default'> {message.guess}</span> </h2>

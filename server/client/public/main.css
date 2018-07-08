@@ -23,7 +23,9 @@
     top: 0;
   }
   .colors {
-    position: absolute;
+    position: fixed;
+    top: 5%;
+    left: 5%;
   }
   
   .color {

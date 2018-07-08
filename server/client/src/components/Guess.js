@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { fetchNoun } from '../actions'
 import { bindActionCreators } from 'redux';
 
+
 class Guess extends Component {
     constructor(props) {
         super(props)
@@ -13,36 +14,44 @@ class Guess extends Component {
         }
     }
     componentWillMount = async () => {
-            if(this.props.draw) {
+        if (this.props.draw) {
             await this.props.fetchNoun();
-          }
+        }
     }
 
     handleGuess = () => {
-        this.props.socket.emit('new-guess', { guess: this.state.guess, username: this.props.user })
-        this.setState({ guess: '' });
+        if (this.state.guess !== '') {
+            this.props.socket.emit('new-guess', { guess: this.state.guess, username: this.props.user })
+            this.setState({ guess: '' });
+        }
+    }
+    handleEnter = (e) => {
+        debugger;
+        if(e.key == 'Enter'){
+            this.handleGuess();
+        }
     }
 
     handleRender = () => {
-        if(!this.props.draw){
-            return(
-            <div>
-                <h4> You are guessing! </h4>
-                <input className='offset-md-5' onChange={(e) => this.setState({ guess: e.target.value })} value={this.state.guess} type="text" />
-                <button type='button' onClick={() => this.handleGuess()} className='btn btn-primary'>Guess!</button>
-            </div>
+        if (!this.props.draw) {
+            return (
+                <div>
+                    <h4> You are guessing! </h4>
+                    <input onKeyPress={(e) => this.handleEnter(e)} className='offset-md-5' onChange={(e) => this.setState({ guess: e.target.value })} value={this.state.guess} type="text" />
+                    <button type='button' onClick={() => this.handleGuess()} className='btn btn-primary'>Guess!</button>
+                </div>
             )
         }
-        if(this.props.draw){
-            return(
+        if (this.props.draw) {
+            return (
                 <div>
                     <h4> You are drawing! </h4>
-            <h3> {this.props.noun} </h3>
-            <button type='button' onClick={() => {
-                this.props.socket.emit('clear-all');
-                this.props.fetchNoun();
-                }} className='btn btn-primary'>Press for Word</button>
-            </div>
+                    <h3> {this.props.noun} </h3>
+                    <button type='button' onClick={() => {
+                        this.props.socket.emit('clear-all');
+                        this.props.fetchNoun();
+                    }} className='btn btn-primary'>Press for Word</button>
+                </div>
             )
 
         }
@@ -52,10 +61,10 @@ class Guess extends Component {
     }
 }
 
-const mapStateToProps = ({noun}) => {
-    return {noun}
+const mapStateToProps = ({ noun }) => {
+    return { noun }
 }
 const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({fetchNoun}, dispatch);
+    return bindActionCreators({ fetchNoun }, dispatch);
 }
 export default socketConnect(connect(mapStateToProps, mapDispatchToProps)(Guess))
