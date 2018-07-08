@@ -6,6 +6,7 @@ const io = require('socket.io')(http);
 const port = process.env.PORT || 8000;
 const bodyParser = require('body-parser');
 const fs = require('fs');
+const path = require('path');
 let Users = []
 let wordCounter = 0;
 let randomNoun;
@@ -13,8 +14,7 @@ let upNextIndex = 0;
 let nowDrawing;
 let wordArray = fs.readFileSync('./server/assets/nounlist.txt', 'utf-8').split('\n');
 
-// production
-// app.use(express.static(__dirname + '/client/src'));
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
   extended: true
@@ -80,5 +80,19 @@ app.get('/api/noun', (request, response) => {
 })
 
 io.on('connection', onConnection);
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'client/build')));
+
+  
+
+  // Express will serve up the index.html file
+  // if it doesn't recognize the route
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+}
+
 
 http.listen(port, () => console.log('listening on port ' + port));
