@@ -12,7 +12,7 @@ let wordCounter = 0;
 let randomNoun;
 let upNextIndex = 0;
 let nowDrawing;
-let wordArray = fs.readFileSync('./server/assets/nounlist.txt', 'utf-8').split('\n');
+let wordArray = fs.readFileSync('./assets/nounlist.txt', 'utf-8').split('\n');
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, 'client/build')));
