@@ -14,6 +14,9 @@ let upNextIndex = 0;
 let nowDrawing;
 let wordArray = fs.readFileSync('./server/assets/nounlist.txt', 'utf-8').split('\n');
 
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'client/build')));
+}
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
@@ -82,10 +85,6 @@ app.get('/api/noun', (request, response) => {
 io.on('connection', onConnection);
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, 'client/build')));
-
-  
-
   // Express will serve up the index.html file
   // if it doesn't recognize the route
 
