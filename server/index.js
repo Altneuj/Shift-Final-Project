@@ -68,6 +68,15 @@ function onConnection(socket) {
   socket.on('stop-timer', () => {io.emit('stop-timer', (false))});
   socket.on('clear-all', () => {io.emit('clear-canvas')});
 }
+if (process.env.NODE_ENV === 'production') {
+  // Express will serve up the index.html file
+  // if it doesn't recognize the route
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+}
+
 app.get('/api/users', (request, response) => {
   return response.send(Users)
 })
@@ -84,14 +93,6 @@ app.get('/api/noun', (request, response) => {
 
 io.on('connection', onConnection);
 
-if (process.env.NODE_ENV === 'production') {
-  // Express will serve up the index.html file
-  // if it doesn't recognize the route
-
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-  });
-}
 
 
 http.listen(port, () => console.log('listening on port ' + port));
