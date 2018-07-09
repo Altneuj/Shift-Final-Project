@@ -12,12 +12,6 @@ class winGuessing extends Component {
                     <h1 className='text-center'>  YOU won this round! </h1>
                     <img className='win-img' src='https://media.giphy.com/media/2LODlaJkHJVS0/giphy.gif' alt='win' />
                     <h2 className='text-center'> You are guessing again next round! </h2>
-                    <button className='btn btn-secondary next-game' onClick={() => {
-                        this.props.socket.emit('clear-guesses')
-                        this.props.socket.emit('clear-all');
-                        this.props.socket.emit('new-game')
-                    }
-                    }>Next Game</button>
                 </div>
             )
         }
