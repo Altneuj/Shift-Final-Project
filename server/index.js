@@ -15,7 +15,7 @@ let nowDrawing;
 let wordArray = fs.readFileSync('server/assets/nounlist.txt', 'utf-8').split('\n');
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, 'client/build')));
+  app.use(express.static(path.join(__dirname, 'client/build/index.html')));
 }
 
 app.use(bodyParser.json())
