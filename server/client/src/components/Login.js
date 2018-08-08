@@ -13,6 +13,7 @@ class Login extends Component {
         }
     }
     componentDidMount = () => {
+        //interval updates amount of users playing
         this.props.fetchUsers();
         setInterval(() => { this.props.fetchUsers() }, 3000)
     }
@@ -20,29 +21,30 @@ class Login extends Component {
         clearInterval()
     }
     submitUser = (data) => {
-        if(this.props.users && data.username != ''){
-        let foundUser = this.props.users.find((user) => {
-            return user.username.toLowerCase() == data.username.toLowerCase()
-        })
-        if (!foundUser) {
-            this.props.socket.emit('add-user', data)
-        } else {
-            this.refs.error.classList.remove('hide');
-        }}
+        if (this.props.users && data.username != '') {
+            let foundUser = this.props.users.find((user) => {
+                return user.username.toLowerCase() == data.username.toLowerCase()
+            })
+            if (!foundUser) {
+                this.props.socket.emit('add-user', data)
+            } else {
+                this.refs.error.classList.remove('hide');
+            }
+        }
     }
     handleEnter = (e) => {
-        debugger;
-        if(e.key == 'Enter'){
+        if (e.key == 'Enter') {
             this.submitUser(this.state);
         }
     }
     usersOn = () => {
+        //current count of users online
         if (this.props.users && this.props.users.length !== 0) {
             if (this.props.users.length == 1) {
-                return (<h1> {this.props.users.length} User Online Now! </h1>)
+                return (<h1 className='white'> {this.props.users.length} User Online Now! </h1>)
             }
             else {
-                return (<h1> {this.props.users.length} Users Online Now! </h1>)
+                return (<h1 className='white'> {this.props.users.length} Users Online Now! </h1>)
             }
         }
     }
@@ -54,15 +56,17 @@ class Login extends Component {
                         <div className='col'>
                             {this.usersOn()}
                             <div className='jumbotron'>
-                            <h2> Welcome to Draw-It! A live drawing game! </h2>
+                                <h2> Welcome to Draw-It! A live drawing game! </h2>
                             </div>
-                            <h3> The rules are simple. </h3>
-                            <h4> <strong><u> If you are the drawer</u></strong>, you can draw anything you want! If you need some inspiration hit the 'Press for Word' button. </h4>
-                            <h4> Keep an eye on the guesses in the bottom right corner of the screen. </h4>
-                            <h4> Click the guess that matches what you drew! </h4>
-                            <h4> <strong><u>If you aren't drawing</u></strong>, try to guess what the drawing is.</h4>
-                            <hr />
-                            <h2> What's your name? </h2>
+                            <div className='white'>
+                                <h3> The rules are simple. </h3>
+                                <h4> <strong><u> If you are the drawer</u></strong>, you can draw anything you want! If you need some inspiration hit the 'Press for Word' button. </h4>
+                                <h4> Keep an eye on the guesses in the bottom right corner of the screen. </h4>
+                                <h4> Click the guess that matches what you drew! </h4>
+                                <h4> <strong><u>If you aren't drawing</u></strong>, try to guess what the drawing is.</h4>
+                                <hr />
+                                <h2> What's your name? </h2>
+                            </div>
                             <input onKeyPress={(e) => this.handleEnter(e)} maxLength='8' className='text-center' onChange={(e) => this.setState({ username: e.target.value })} value={this.state.username} type="text" />
                             <p className='error-text hide' ref='error'> Username already in use! Please use another. </p>
                             <button onClick={() => { this.submitUser(this.state) }} className='btn btn-primary'>Submit</button>

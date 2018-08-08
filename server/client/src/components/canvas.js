@@ -14,24 +14,26 @@ class Canvas extends Component {
         }
     }
     componentDidMount = () => {
+        //controller to start or stop timer sent from server socket
         canvasScript();
-        this.props.socket.on('start-timer', (data) =>{
-            this.setState({timer: data})
+        this.props.socket.on('start-timer', (data) => {
+            this.setState({ timer: data })
         })
         this.props.socket.on('stop-timer', (data) => {
-            this.setState({timer: data})
+            this.setState({ timer: data })
         })
     }
+    //When timer timeouts, sends a 'winner' emit to server with false values indicate no winner found
     renderTimer = () => {
-        if(this.state.timer && this.props.draw){
+        if (this.state.timer && this.props.draw) {
             return <ReactCountdownClock
-            seconds={30}
-            size={100}
-            onComplete={() => {
-                this.setState({timer: false})
-                this.props.socket.emit('winner', {username: false, guess: false})
-            }
-            } />
+                seconds={30}
+                size={100}
+                onComplete={() => {
+                    this.setState({ timer: false })
+                    this.props.socket.emit('winner', { username: false, guess: false })
+                }
+                } />
         }
     }
     render() {

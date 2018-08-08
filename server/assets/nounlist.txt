@@ -10,7 +10,8 @@ Sunglasses
 Cat
 Sun
 Snowflake
-SnowflakeTree
+Tree
+Can
 Shoe
 Dog
 Eyes
@@ -50,3 +51,16 @@ Slam-Dunk
 Watering-Can
 Earth
 Cell-phone
+Ant
+Airplane
+Watch
+Snake
+Moon
+Fire
+River
+Fish
+Cow
+Giraffe
+Cowboy-hat
+Elephant
+Apple

@@ -45,6 +45,13 @@ background-color: #0089B2; /* Black background with opacity */
 .win-img {
   height:200px;
   width:200px;
+  object-fit: contain;
+}
+.btn-color {
+  background: lightgrey !important;
+}
+.aspect-fit {
+  object-fit: contain;
 }
 .top-right {
   position: absolute;
@@ -65,6 +72,7 @@ background-color: #0089B2; /* Black background with opacity */
 }
 .winner {
   background-color: #0089B2 !important;
+  color: white;
 }
 /* FROM REACT_COLLAPSIBLE */
 .Collapsible {
@@ -117,3 +125,7 @@ background-color: #0089B2; /* Black background with opacity */
   font-size: 12px;
   background-color: #CBB700;
   color: black; }
+
+  .white  {
+    color: white;
+  }

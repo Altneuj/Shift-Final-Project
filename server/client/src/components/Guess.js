@@ -20,14 +20,14 @@ class Guess extends Component {
     }
 
     handleGuess = () => {
+        //emits the guess to the server which emits to other clients to render on guessList
         if (this.state.guess !== '') {
             this.props.socket.emit('new-guess', { guess: this.state.guess, username: this.props.user })
             this.setState({ guess: '' });
         }
     }
     handleEnter = (e) => {
-        debugger;
-        if(e.key == 'Enter'){
+        if (e.key == 'Enter') {
             this.handleGuess();
         }
     }

@@ -11,21 +11,24 @@ class GuessList extends Component {
         }
     }
     componentDidMount() {
+        //adds incoming message to message list
         this.props.socket.on('incoming-guess', (data) => {
             this.setState({ messages: [...this.state.messages, data] })
         })
         this.props.socket.on('clear-guesses', () => {
-            this.setState({messages: []})
+            this.setState({ messages: [] })
         })
     }
     componentDidUpdate() {
         this.scrollToBottom();
     }
     scrollToBottom() {
+        //scrolls to bottom of guess list when the overflow scroll is present
         this.el.scrollIntoView({ behavior: 'smooth' });
     }
     renderGuesses = () => {
         let messagesArray = this.state.messages.map((message, index) => {
+            //onClick will choose the winner which will send to server to emit the winner and assign new roles to all clients
 
             return (
 
